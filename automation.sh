@@ -4,15 +4,25 @@
 sudo apt update -y
 
 # Check if AWS CLI is installed. If not, then install it.
-awscli_installed=$(dpkg --list awscli | grep awscli | awk '{print $2}')
-[  -z "$awscli_installed" ] && sudo apt install awscli -y
+awscli_installed=$(dpkg --list awscli | grep awscli | awk '{print $1}')
+if [ awscli_installed = "ii" ];then
+	echo "AWS CLI is installed"
+else
+	echo "Installing AWS CLI"
+	sudo apt-get install awscli -y
+fi
 
 # Check if apach2 is installed, if not, then install it.
 package_name="apache2"
 myname="Shyam"
 s3BucketName="upgrad-shyamgupta"
-apache_installed=$(dpkg --list apache2 | grep apache2 | awk '{print $2}')
-[ -z "$apache_installed" ] &&  sudo apt-get install apache2 -y
+apache_installed=$(dpkg --list apache2 | grep apache2 | awk '{print $1}')
+if [ apache_installed = "ii"  ]; then
+	echo "Apache is installeid"
+else
+	echo "Installing Apache" 
+	sudo apt-get install apache2 -y
+fi
 
 #Check if apache2 is running, if not then start it
 if [ $(systemctl is-active apache2) = "active"  ]; then
